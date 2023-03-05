@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>uk.gov.companieshouse</groupId>
+	<artifactId>rundeck-sns-notification-plugin</artifactId>
+	<packaging>jar</packaging>
+	<version>1.2.9</version>
+
+	<parent>
+		<artifactId>companies-house-parent</artifactId>
+		<groupId>uk.gov.companieshouse</groupId>
+		<version>1.3.1</version>
+	</parent>
+	<properties>
+
+		<!-- Java -->
+		<java.version>1.8</java.version>
+
+		<!-- Dependency Versions -->
+		<junit.version>4.12</junit.version>
+		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-dependency-plugin.version>3.5.0</maven-dependency-plugin.version>
+		<maven-jar-plugin.version>3.3.0</maven-jar-plugin.version>
+	</properties>
+
+	<dependencies>
+		<!-- Compile -->
+		<dependency>
+			<groupId>org.rundeck</groupId>
+			<artifactId>rundeck-core</artifactId>
+			<version>4.10.1-20230221</version>
+			<scope>provided</scope>
+		</dependency>
+	    <dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.32</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>sns</artifactId>
+			<version>2.20.16</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Test -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>4.0.0</version>
+            <scope>test</scope>
+        </dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven-compiler-plugin.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<fork>true</fork>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/classes/lib</outputDirectory>
+							<includeScope>runtime</includeScope>
+						</configuration>
+					</execution>
+					<execution>
+						<id>build-classpath</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>build-classpath</goal>
+						</goals>
+						<!-- The maven-dependency-plugin doesn't allow just a space to be set as a pathSeparator, so a workaround is to include part
+						of the prefix as the pathSeparator.  In this case the pathSeparator is set to " l" and the prefix is just "ib".  
+						This results in "ib/dependency1.jar lib/dependency2.jar lib/dependency3.jar" etc.
+						As the initial "l" is missing, that is prefixed to the <Rundeck-Plugin-Libs> manifest entry in the maven-jar-plugin config below. -->
+						<configuration>
+						    <includeScope>runtime</includeScope>
+						    <prefix>ib</prefix>
+						    <pathSeparator xml:space="preserve"> l</pathSeparator>
+							<outputProperty>rundeck-plugin-dependencies-list</outputProperty>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<archive>
+						<manifestEntries>
+						    <Rundeck-Plugin-File-Version>${project.version}</Rundeck-Plugin-File-Version>
+							<Rundeck-Plugin-Classnames>uk.gov.companieshouse.rundeck.plugin.SNSNotificationPlugin</Rundeck-Plugin-Classnames>
+							<Rundeck-Plugin-Version>1.2</Rundeck-Plugin-Version>
+							<Rundeck-Plugin-Archive>true</Rundeck-Plugin-Archive>
+							<Rundeck-Plugin-Libs-Load-First>true</Rundeck-Plugin-Libs-Load-First>
+							<Rundeck-Plugin-Libs>l${rundeck-plugin-dependencies-list}</Rundeck-Plugin-Libs>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
