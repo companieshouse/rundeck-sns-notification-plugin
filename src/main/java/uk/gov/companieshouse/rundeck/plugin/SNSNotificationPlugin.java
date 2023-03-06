@@ -25,10 +25,10 @@ public class SNSNotificationPlugin implements NotificationPlugin {
     private String message;
 
     @PluginProperty(title = "AWS SNS Topic ARN", description = "AWS SNS Topic ARN", required = true)
-    private String aws_sns_topic_arn;
+    private String awsSnsTopicArn;
 
     public boolean postNotification(String trigger, Map executionData, Map config) {
-        PublishRequest publishRequest = PublishRequest.builder().topicArn(aws_sns_topic_arn).message(message)
+        PublishRequest publishRequest = PublishRequest.builder().topicArn(awsSnsTopicArn).message(message)
                 .subject(subject).build();
         PublishResponse publishResponse = getSnsClient().publish(publishRequest);
         return publishResponse.sdkHttpResponse().isSuccessful();
@@ -54,12 +54,12 @@ public class SNSNotificationPlugin implements NotificationPlugin {
         this.message = message;
     }
 
-    protected String getAws_sns_topic_arn() {
-        return aws_sns_topic_arn;
+    protected String getAwsSnsTopicArn() {
+        return awsSnsTopicArn;
     }
 
-    protected void setAws_sns_topic_arn(String aws_sns_topic_arn) {
-        this.aws_sns_topic_arn = aws_sns_topic_arn;
+    protected void setAwsSnsTopicArn(String awsSnsTopicArn) {
+        this.awsSnsTopicArn = awsSnsTopicArn;
     }
 
 }
