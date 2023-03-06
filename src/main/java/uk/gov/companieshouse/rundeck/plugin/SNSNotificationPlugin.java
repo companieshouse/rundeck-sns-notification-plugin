@@ -18,7 +18,6 @@ import java.util.Map;
 public class SNSNotificationPlugin implements NotificationPlugin {
 
     @PluginProperty(title = "Subject", description = "Subject of message.  Variables are supported.", required = true, defaultValue = "")
-    @TextArea
     private String subject;
 
     @PluginProperty(title = "Message", description = "Message to send.  Variables are supported.", required = true, defaultValue = "")
