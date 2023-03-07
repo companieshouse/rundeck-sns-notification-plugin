@@ -38,24 +38,12 @@ public class SNSNotificationPlugin implements NotificationPlugin {
         return SnsClient.create();
     }
 
-    protected String getSubject() {
-        return subject;
-    }
-
     protected void setSubject(String subject) {
         this.subject = subject;
     }
 
-    protected String getMessage() {
-        return message;
-    }
-
     protected void setMessage(String message) {
         this.message = message;
-    }
-
-    protected String getAwsSnsTopicArn() {
-        return awsSnsTopicArn;
     }
 
     protected void setAwsSnsTopicArn(String awsSnsTopicArn) {
