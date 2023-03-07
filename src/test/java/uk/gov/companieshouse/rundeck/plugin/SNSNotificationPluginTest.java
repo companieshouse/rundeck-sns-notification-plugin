@@ -19,7 +19,7 @@ import software.amazon.awssdk.services.sns.model.PublishRequest;
 import software.amazon.awssdk.services.sns.model.PublishResponse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class SNSNotififcationPluginTest {
+public class SNSNotificationPluginTest {
     
     private static final String TEST_SUBJECT = "test subject";  
     private static final String TEST_MESSAGE = "test message";

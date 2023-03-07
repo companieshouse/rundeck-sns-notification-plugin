@@ -32,7 +32,7 @@
 			<version>4.10.1-20230221</version>
 			<scope>provided</scope>
 		</dependency>
-	    <dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.32</version>
@@ -53,11 +53,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>4.0.0</version>
-            <scope>test</scope>
-        </dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>4.0.0</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -100,9 +100,9 @@
 						This results in "ib/dependency1.jar lib/dependency2.jar lib/dependency3.jar" etc.
 						As the initial "l" is missing, that is prefixed to the <Rundeck-Plugin-Libs> manifest entry in the maven-jar-plugin config below. -->
 						<configuration>
-						    <includeScope>runtime</includeScope>
-						    <prefix>ib</prefix>
-						    <pathSeparator xml:space="preserve"> l</pathSeparator>
+							<includeScope>runtime</includeScope>
+							<prefix>ib</prefix>
+							<pathSeparator xml:space="preserve"> l</pathSeparator>
 							<outputProperty>rundeck-plugin-dependencies-list</outputProperty>
 						</configuration>
 					</execution>
@@ -115,7 +115,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-						    <Rundeck-Plugin-File-Version>${project.version}</Rundeck-Plugin-File-Version>
+							<Rundeck-Plugin-File-Version>${project.version}</Rundeck-Plugin-File-Version>
 							<Rundeck-Plugin-Classnames>uk.gov.companieshouse.rundeck.plugin.SNSNotificationPlugin</Rundeck-Plugin-Classnames>
 							<Rundeck-Plugin-Version>1.2</Rundeck-Plugin-Version>
 							<Rundeck-Plugin-Archive>true</Rundeck-Plugin-Archive>
@@ -124,6 +124,10 @@
 						</manifestEntries>
 					</archive>
 				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
