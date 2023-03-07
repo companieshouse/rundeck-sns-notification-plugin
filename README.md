@@ -1,3 +1,4 @@
+
 # rundeck-sns-notification-plugin
 
 ## Overview
@@ -9,36 +10,38 @@ The plugin has the following fields, which support standard expressions so that 
  - Message - the body of the SNS message
  - AWS SNS Topic ARN - the topic to deliver to
 
-The message can be simple text, just like the body of an email, which is suitable for topic subscriptions by email addresses, or can be a JSON structure that is more useful where there may be a webhook/http subscription that forms part of an integration with another service.
+The message can be simple text, just like the body of an email, which is suitable for topic subscriptions configured 
+for email delivery, or can be a JSON structure that is more useful where there may be a webhook/http subscription that forms part of an integration with another service.
 
 
 ![](https://github.com/companieshouse/rundeck-sns-notification-plugin/raw/main/plugin-screenshot.png)
 For example, if there was an integration that relied on the message format being similar to messages received from Cloudwatch, then the following message body might be used: 
 
     {
-	"AlarmName": "Rundeck ${job.project} - ${job.group}/${job.name} : ${execution.status}",
-	"Region": "eu-west-2",
-	"StateChangeTime": "${execution.dateEndedW3c}",
-	"AlarmDescription": "${job.group}/${job.name} - see ${execution.href}",
-	"NewStateValue": "ALARM",
-	"OldStateValue": "OK",
-	"NewStateReason": "Job ${execution.status}",
-	"AWSAccountId": "",
-	"Trigger": {
-		"ComparisonOperator": "",
-		"Dimensions": "",
-		"EvaluationPeriods": "",
-		"MetricName": "",
-		"Namespace": "",
-		"Period": "",
-		"Statistic": "",
-		"StatisticType": "",
-		"Threshold": "",
-		"TreatMissingData": "",
-		"Unit": "",
-		"EvaluateLowSampleCountPercentile": ""
-	}
-}
+	    "AlarmName": "Rundeck ${job.project} - ${job.group}/${job.name} : ${execution.status}",
+	    "Region": "eu-west-2",
+	    "StateChangeTime": "${execution.dateEndedW3c}",
+	    "AlarmDescription": "${job.group}/${job.name} - see ${execution.href}",
+	    "NewStateValue": "ALARM",
+	    "OldStateValue": "OK",
+	    "NewStateReason": "Job ${execution.status}",
+	    "AWSAccountId": "",
+	    "Trigger": {
+		    "ComparisonOperator": "",
+		    "Dimensions": "",
+		    "EvaluationPeriods": "",
+		    "MetricName": "",
+		    "Namespace": "",
+		    "Period": "",
+		    "Statistic": "",
+		    "StatisticType": "",
+		    "Threshold": "",
+		    "TreatMissingData": "",
+		    "Unit": "",
+		    "EvaluateLowSampleCountPercentile": ""
+	    }
+    }
+
 Depending on the integration in question, many of those fields (such as the trigger attributes) might not be needed, and may be left blank.
 
 ### Region and Credentials
@@ -52,6 +55,3 @@ The plugin jar needs to be placed inside `<RUNDECK_BASE>/libext` and it should t
 The build requires Java 8+ and Maven - e.g.:
 
     mvn clean test package versions:set -DnewVersion=1.0.1
-
-
-
