@@ -42,7 +42,7 @@ public class SNSNotififcationPluginTest {
         
         plugin.setSubject(TEST_SUBJECT);
         plugin.setMessage(TEST_MESSAGE);
-        plugin.setAws_sns_topic_arn(TEST_TOPIC_ARN);
+        plugin.setAwsSnsTopicArn(TEST_TOPIC_ARN);
     }
 
     @Test
