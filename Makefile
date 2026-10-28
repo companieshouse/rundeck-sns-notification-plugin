@@ -35,7 +35,7 @@ dist: clean build package
 
 .PHONY: sonar
 sonar:
-	mvn sonar:sonar
+	mvn -e sonar:sonar
 
 .PHONY: sonar-pr-analysis
 sonar-pr-analysis:
